@@ -43,7 +43,8 @@ Game::Game(MainWindow& wnd)
 	gfx(wnd),
 	brd(gfx),
 	rng(std::random_device()()),
-	snake( {2,2})
+	snake({ 2,2 }),
+	fruit(rng, brd, snake)
 {
 	scenes.push_back( std::make_unique<SpecularPhongPointScene>( gfx ) );
 	curScene = scenes.begin();
@@ -93,11 +94,16 @@ void Game::UpdateModel()
 			}
 			else
 			{
-				if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+				const bool eating = next == fruit.GetLocation();
+				if (eating)
 				{
 					snake.Grow();
 				}
 				snake.MoveBy(delta_loc);
+				if (eating)
+				{
+					fruit.Respawn(rng, brd, snake);
+				}
 			}
 		}
 	}
@@ -142,6 +148,7 @@ void Game::ComposeFrame()
 	//(*curScene)->Draw();
 
 	snake.Draw(brd);
+	fruit.Draw(brd);
 	if (gameOver)
 	{
 		//TODO: make a title and game over screen, put game over screen here

@@ -44,6 +44,18 @@ bool Snake::IsInTileBesidesTail(const Location& target) const
 	return false;
 }
 
+bool Snake::IsInTile(const Location& target) const
+{
+	for (int i = 0; i < nSegments; i++)
+	{
+		if (segments[i].GetLocation() == target)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 Location Snake::GetNextHeadLoc(const Location& delta_loc) const
 {
 	Location l(segments[0].GetLocation());

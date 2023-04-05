@@ -35,6 +35,7 @@ public:
 	void Grow();
 	void Draw(Board& brd) const;
 	bool IsInTileBesidesTail(const Location& target) const;
+	bool IsInTile(const Location& target) const;
 
 	Location GetNextHeadLoc(const Location& delta_loc) const;
 };

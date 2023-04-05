@@ -138,7 +138,7 @@ private:
 	{}
 private:
 	std::unique_ptr<Color[]> pBuffer;
-	unsigned int width;
-	unsigned int height;
+	unsigned int width = 30;
+	unsigned int height = 30;
 	unsigned int pitch; // pitch is in PIXELS, not bytes!
 };

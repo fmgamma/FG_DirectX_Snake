@@ -27,6 +27,7 @@
 #include "FrameTimer.h"
 #include "Board.h"
 #include "Snake.h"
+#include "Goal.h"
 #include <random>
 
 class Game
@@ -55,10 +56,11 @@ private:
 	std::vector<std::unique_ptr<Scene>>::iterator curScene;
 	Board brd;
 	Snake snake;
+	std::mt19937 rng;
+	Goal fruit;
 	Location delta_loc = {1,0};
 	static constexpr int snakeMovePerSec = 20;
 	int snakeMoveCounter = 0;
 	bool gameOver = false;
-	std::mt19937 rng;
 	/********************************/
 };
