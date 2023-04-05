@@ -16,6 +16,7 @@ private:
 		void FollowPrevSeg(const Segments& next);
 		void MoveBy(const Location& delta_loc);
 		void Draw(Board& brd) const;
+		const Location& GetLocation() const;
 	private:
 		Location loc;
 		Color c;
@@ -33,4 +34,7 @@ public:
 	void MoveBy(const Location& delta_loc); //we're using a delta value here so all the segments can be passed their new location at once
 	void Grow();
 	void Draw(Board& brd) const;
+	bool IsInTile(const Location& target) const;
+
+	Location GetNextHeadLoc(const Location& delta_loc) const;
 };

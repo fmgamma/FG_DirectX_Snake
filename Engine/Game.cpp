@@ -60,37 +60,47 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (wnd.kbd.KeyIsPressed(VK_UP))
+	if (!gameOver)
 	{
-		delta_loc = { 0,-1 };
-	}
-
-	else if (wnd.kbd.KeyIsPressed(VK_DOWN))
-	{
-		delta_loc = { 0,1 };
-	}
-
-	else if (wnd.kbd.KeyIsPressed(VK_LEFT))
-	{
-		delta_loc = { -1,0 };
-	}
-
-	else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-	{
-		delta_loc = { 1,0 };
-	}
-
-	++snakeMoveCounter;
-	if (snakeMoveCounter >= snakeMovePerSec)
-	{
-		snakeMoveCounter = 0;
-		if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+		if (wnd.kbd.KeyIsPressed(VK_UP))
 		{
-			snake.Grow();
+			delta_loc = { 0,-1 };
 		}
-		snake.MoveBy(delta_loc);
-	}
 
+		else if (wnd.kbd.KeyIsPressed(VK_DOWN))
+		{
+			delta_loc = { 0,1 };
+		}
+
+		else if (wnd.kbd.KeyIsPressed(VK_LEFT))
+		{
+			delta_loc = { -1,0 };
+		}
+
+		else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+		{
+			delta_loc = { 1,0 };
+		}
+
+		++snakeMoveCounter;
+		if (snakeMoveCounter >= snakeMovePerSec)
+		{
+			snakeMoveCounter = 0;
+			const Location next = snake.GetNextHeadLoc(delta_loc);
+			if (!brd.IsInsideBoard(next) || snake.IsInTile(next))
+			{
+				gameOver = true;
+			}
+			else
+			{
+				if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+				{
+					snake.Grow();
+				}
+				snake.MoveBy(delta_loc);
+			}
+		}
+	}
 }
 
 void Game::CycleScenes()
@@ -132,6 +142,10 @@ void Game::ComposeFrame()
 	//(*curScene)->Draw();
 
 	snake.Draw(brd);
+	if (gameOver)
+	{
+		//TODO: make a title and game over screen, put game over screen here
+	}
 
 	/*std::uniform_int_distribution<int> colorDist(0, 255); //OLD - Test code to draw the board and check it's working
 	for (int y = 0; y < brd.GetGridHeight(); y++)
