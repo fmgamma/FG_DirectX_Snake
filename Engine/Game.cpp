@@ -87,7 +87,7 @@ void Game::UpdateModel()
 		{
 			snakeMoveCounter = 0;
 			const Location next = snake.GetNextHeadLoc(delta_loc);
-			if (!brd.IsInsideBoard(next) || snake.IsInTile(next))
+			if (!brd.IsInsideBoard(next) || snake.IsInTileBesidesTail(next))
 			{
 				gameOver = true;
 			}

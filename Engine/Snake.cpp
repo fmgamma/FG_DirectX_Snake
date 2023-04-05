@@ -32,9 +32,9 @@ void Snake::Draw(Board& brd) const
 	}
 }
 
-bool Snake::IsInTile(const Location& target) const
+bool Snake::IsInTileBesidesTail(const Location& target) const
 {
-	for (int i = 0; i < nSegments; i++)
+	for (int i = 0; i < nSegments - 1; i++)
 	{
 		if (segments[i].GetLocation() == target)
 		{
