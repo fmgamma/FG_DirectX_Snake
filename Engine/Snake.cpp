@@ -19,6 +19,7 @@ void Snake::Grow()
 {
 	if (nSegments < MAX_nSEGMENTS)
 	{
+		segments[nSegments].InitBody();
 		nSegments++;
 	}
 }
@@ -42,7 +43,7 @@ void Snake::Segments::InitBody()
 	c = Snake::bodyColor;
 }
 
-void Snake::Segments::FollowPrevSeg(const Segments& next)
+void Snake::Segments::FollowPrevSeg(const Segments& next) //looks at the previous snake segments location and moves to it
 {
 	loc = next.loc;
 }

@@ -42,7 +42,8 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	brd(gfx),
-	rng(std::random_device()())
+	rng(std::random_device()()),
+	snake( {2,2})
 {
 	scenes.push_back( std::make_unique<SpecularPhongPointScene>( gfx ) );
 	curScene = scenes.begin();
@@ -59,29 +60,37 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	const float dt = ft.Mark();
-	// cycle through scenes when tab is pressed
-	while( !wnd.kbd.KeyIsEmpty() )
+	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		const auto e = wnd.kbd.ReadKey();
-		if( e.GetCode() == VK_TAB && e.IsPress() )
-		{
-			if( wnd.kbd.KeyIsPressed( VK_SHIFT ) )
-			{
-				ReverseCycleScenes();
-			}
-			else
-			{
-				CycleScenes();
-			}
-		}
-		else if( e.GetCode() == VK_ESCAPE && e.IsPress() )
-		{
-			wnd.Kill();
-		}
+		delta_loc = { 0,-1 };
 	}
-	// update scene
-	(*curScene)->Update( wnd.kbd,wnd.mouse,dt );
+
+	else if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	{
+		delta_loc = { 0,1 };
+	}
+
+	else if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	{
+		delta_loc = { -1,0 };
+	}
+
+	else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	{
+		delta_loc = { 1,0 };
+	}
+
+	++snakeMoveCounter;
+	if (snakeMoveCounter >= snakeMovePerSec)
+	{
+		snakeMoveCounter = 0;
+		if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+		{
+			snake.Grow();
+		}
+		snake.MoveBy(delta_loc);
+	}
+
 }
 
 void Game::CycleScenes()
@@ -122,7 +131,9 @@ void Game::ComposeFrame()
 	// draw scene
 	//(*curScene)->Draw();
 
-	std::uniform_int_distribution<int> colorDist(0, 255);
+	snake.Draw(brd);
+
+	/*std::uniform_int_distribution<int> colorDist(0, 255); //OLD - Test code to draw the board and check it's working
 	for (int y = 0; y < brd.GetGridHeight(); y++)
 	{
 		for (int x = 0; x < brd.GetGridWidth(); x++)
@@ -131,5 +142,5 @@ void Game::ComposeFrame()
 			Color c(colorDist(rng), colorDist(rng), colorDist(rng));
 			brd.DrawCell(loc, c);
 		}
-	}
+	}*/
 }
