@@ -37,10 +37,12 @@
 #include "SpecularPhongPointScene.h"
 #include <sstream>
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd )
+	wnd(wnd),
+	gfx(wnd),
+	brd(gfx),
+	rng(std::random_device()())
 {
 	scenes.push_back( std::make_unique<SpecularPhongPointScene>( gfx ) );
 	curScene = scenes.begin();
@@ -118,5 +120,16 @@ void Game::OutputSceneName() const
 void Game::ComposeFrame()
 {
 	// draw scene
-	(*curScene)->Draw();
+	//(*curScene)->Draw();
+
+	std::uniform_int_distribution<int> colorDist(0, 255);
+	for (int y = 0; y < brd.GetGridHeight(); y++)
+	{
+		for (int x = 0; x < brd.GetGridWidth(); x++)
+		{
+			Location loc = { x, y };
+			Color c(colorDist(rng), colorDist(rng), colorDist(rng));
+			brd.DrawCell(loc, c);
+		}
+	}
 }

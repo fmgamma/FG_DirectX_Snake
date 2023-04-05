@@ -25,6 +25,8 @@
 #include <vector>
 #include "Scene.h"
 #include "FrameTimer.h"
+#include "Board.h"
+#include <random>
 
 class Game
 {
@@ -50,5 +52,7 @@ private:
 	FrameTimer ft;
 	std::vector<std::unique_ptr<Scene>> scenes;
 	std::vector<std::unique_ptr<Scene>>::iterator curScene;
+	Board brd;
+	std::mt19937 rng;
 	/********************************/
 };
