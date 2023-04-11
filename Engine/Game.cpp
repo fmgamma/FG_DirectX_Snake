@@ -106,6 +106,16 @@ void Game::UpdateModel()
 				}
 			}
 		}
+		++snakeSpeedUpCounter;
+		if (snakeSpeedUpCounter >= snakeSpeedUpPerSec)
+		{
+			snakeSpeedUpCounter = 0;
+			snakeMovePerSec--;
+			if (snakeMovePerSec < 0)
+			{
+				snakeMovePerSec = 0;
+			}
+		}
 	}
 }
 
