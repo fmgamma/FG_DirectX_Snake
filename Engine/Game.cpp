@@ -153,6 +153,7 @@ void Game::ComposeFrame()
 	{
 		//TODO: make a title and game over screen, put game over screen here
 	}
+	brd.DrawBorder();
 
 	/*std::uniform_int_distribution<int> colorDist(0, 255); //OLD - Test code to draw the board and check it's working
 	for (int y = 0; y < brd.GetGridHeight(); y++)
