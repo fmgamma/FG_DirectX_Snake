@@ -60,7 +60,7 @@ Graphics::Graphics( HWNDKey& key )
 	sd.SampleDesc.Quality = 0;
 	sd.Windowed = TRUE;
 
-	D3D_FEATURE_LEVEL	featureLevelsRequested = D3D_FEATURE_LEVEL_9_1;
+	D3D_FEATURE_LEVEL	featureLevelsRequested = D3D_FEATURE_LEVEL_11_1;
 	UINT				numLevelsRequested = 1;
 	D3D_FEATURE_LEVEL	featureLevelsSupported;
 	HRESULT				hr;

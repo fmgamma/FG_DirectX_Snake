@@ -14,7 +14,7 @@ public:
 private:
 
 	static constexpr int dimension = 20;
-	static constexpr int width = 30;
-	static constexpr int height = 30;
+	static constexpr int width = 32;
+	static constexpr int height = 24;
 	Graphics& gfx;
 };

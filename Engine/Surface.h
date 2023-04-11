@@ -83,10 +83,22 @@ public:
 	}
 	void PutPixel( unsigned int x,unsigned int y,Color c )
 	{
-		assert( x >= 0 );
-		assert( y >= 0 );
-		assert( x < width );
-		assert( y < height );
+		if(!(x >= 0) )
+		{
+			assert(false);
+		}
+		if (!(y >= 0))
+		{
+			assert(false);
+		}
+		if (!( x < width))
+		{
+			assert(false);
+		}
+		if (!(y < height))
+		{
+			assert(false);
+		}
 		pBuffer[y * pitch + x] = c;
 	}
 	void PutPixelAlpha( unsigned int x,unsigned int y,Color c );
@@ -138,7 +150,7 @@ private:
 	{}
 private:
 	std::unique_ptr<Color[]> pBuffer;
-	unsigned int width = 30;
-	unsigned int height = 30;
+	unsigned int width = 30 * 20;
+	unsigned int height = 30 * 20;
 	unsigned int pitch; // pitch is in PIXELS, not bytes!
 };

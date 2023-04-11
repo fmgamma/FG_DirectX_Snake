@@ -46,9 +46,9 @@ Game::Game(MainWindow& wnd)
 	snake({ 2,2 }),
 	fruit(rng, brd, snake)
 {
-	scenes.push_back( std::make_unique<SpecularPhongPointScene>( gfx ) );
+	/*scenes.push_back( std::make_unique<SpecularPhongPointScene>( gfx ) );
 	curScene = scenes.begin();
-	OutputSceneName();
+	OutputSceneName();*/
 }
 
 void Game::Go()
