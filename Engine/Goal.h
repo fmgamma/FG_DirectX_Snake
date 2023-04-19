@@ -4,6 +4,7 @@
 
 #include "Snake.h"
 #include "Board.h"
+#include "Pipeline.h"
 
 class Goal
 {

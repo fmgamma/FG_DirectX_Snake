@@ -192,6 +192,7 @@
     <ClInclude Include="SpecularPhongPointScene.h" />
     <ClInclude Include="SpecularPhongPointEffect.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="SpriteCodex.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="TestTriangle.h" />
     <ClInclude Include="TextureEffect.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="SpriteCodex.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="tiny_obj_loader.cpp" />
   </ItemGroup>

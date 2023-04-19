@@ -64,5 +64,6 @@ private:
 	int snakeSpeedUpPerSec = 1440; // every 24 seconds (60fps) the snake will increase its speed making it harder to reach the win condition
 	int snakeSpeedUpCounter = 0;
 	bool gameOver = false;
+	bool gameBegin = false;
 	/********************************/
 };

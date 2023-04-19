@@ -20,21 +20,7 @@
 ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
-#include "Sphere.h"
-#include "TestTriangle.h"
-//#include "CubeSkinScene.h"
-//#include "CubeVertexColorScene.h"
-//#include "CubeSolidScene.h"
-//#include "DoubleCubeScene.h"
-//#include "VertexWaveScene.h"
-//#include "CubeVertexPositionColorScene.h"
-//#include "CubeSolidGeometryScene.h"
-//#include "CubeFlatIndependentScene.h"
-//#include "GeometryFlatScene.h"
-//#include "GouraudScene.h"
-//#include "GouraudPointScene.h"
-//#include "PhongPointScene.h"
-#include "SpecularPhongPointScene.h"
+#include "SpriteCodex.h"
 #include <sstream>
 
 Game::Game(MainWindow& wnd)
@@ -43,13 +29,9 @@ Game::Game(MainWindow& wnd)
 	gfx(wnd),
 	brd(gfx),
 	rng(std::random_device()()),
-	snake({ 2,2 }),
+	snake({ 16, 12 }),
 	fruit(rng, brd, snake)
-{
-	/*scenes.push_back( std::make_unique<SpecularPhongPointScene>( gfx ) );
-	curScene = scenes.begin();
-	OutputSceneName();*/
-}
+{ }
 
 void Game::Go()
 {
@@ -61,109 +43,87 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (!gameOver)
+	if (gameBegin)
 	{
-		if (wnd.kbd.KeyIsPressed(VK_UP))
+		if (!gameOver)
 		{
-			delta_loc = { 0,-1 };
-		}
-
-		else if (wnd.kbd.KeyIsPressed(VK_DOWN))
-		{
-			delta_loc = { 0,1 };
-		}
-
-		else if (wnd.kbd.KeyIsPressed(VK_LEFT))
-		{
-			delta_loc = { -1,0 };
-		}
-
-		else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-		{
-			delta_loc = { 1,0 };
-		}
-
-		++snakeMoveCounter;
-		if (snakeMoveCounter >= snakeMovePerSec)
-		{
-			snakeMoveCounter = 0;
-			const Location next = snake.GetNextHeadLoc(delta_loc);
-			if (!brd.IsInsideBoard(next) || snake.IsInTileBesidesTail(next))
+			if (wnd.kbd.KeyIsPressed(VK_UP))
 			{
-				gameOver = true;
+				delta_loc = { 0,-1 };
 			}
-			else
+
+			else if (wnd.kbd.KeyIsPressed(VK_DOWN))
 			{
-				const bool eating = next == fruit.GetLocation();
-				if (eating)
+				delta_loc = { 0,1 };
+			}
+
+			else if (wnd.kbd.KeyIsPressed(VK_LEFT))
+			{
+				delta_loc = { -1,0 };
+			}
+
+			else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+			{
+				delta_loc = { 1,0 };
+			}
+
+			++snakeMoveCounter;
+			if (snakeMoveCounter >= snakeMovePerSec)
+			{
+				snakeMoveCounter = 0;
+				const Location next = snake.GetNextHeadLoc(delta_loc);
+				if (!brd.IsInsideBoard(next) || snake.IsInTileBesidesTail(next))
 				{
-					snake.Grow();
+					gameOver = true;
 				}
-				snake.MoveBy(delta_loc);
-				if (eating)
+				else
 				{
-					fruit.Respawn(rng, brd, snake);
+					const bool eating = next == fruit.GetLocation();
+					if (eating)
+					{
+						snake.Grow();
+					}
+					snake.MoveBy(delta_loc);
+					if (eating)
+					{
+						fruit.Respawn(rng, brd, snake);
+					}
+				}
+			}
+			++snakeSpeedUpCounter;
+			if (snakeSpeedUpCounter >= snakeSpeedUpPerSec)
+			{
+				snakeSpeedUpCounter = 0;
+				snakeMovePerSec--;
+				if (snakeMovePerSec < 0)
+				{
+					snakeMovePerSec = 0;
 				}
 			}
 		}
-		++snakeSpeedUpCounter;
-		if (snakeSpeedUpCounter >= snakeSpeedUpPerSec)
-		{
-			snakeSpeedUpCounter = 0;
-			snakeMovePerSec--;
-			if (snakeMovePerSec < 0)
-			{
-				snakeMovePerSec = 0;
-			}
-		}
-	}
-}
-
-void Game::CycleScenes()
-{
-	if( ++curScene == scenes.end() )
-	{
-		curScene = scenes.begin();
-	}
-	OutputSceneName();
-}
-
-void Game::ReverseCycleScenes()
-{
-	if( curScene == scenes.begin() )
-	{
-		curScene = scenes.end() - 1;
 	}
 	else
 	{
-		--curScene;
+		gameBegin = wnd.kbd.KeyIsPressed(VK_RETURN);
 	}
-	OutputSceneName();
-}
-
-void Game::OutputSceneName() const
-{
-	std::stringstream ss;
-	const std::string stars( (*curScene)->GetName().size() + 4,'*' );
-
-	ss << stars << std::endl 
-		<< "* " << (*curScene)->GetName() << " *" << std::endl 
-		<< stars << std::endl;
-	OutputDebugStringA( ss.str().c_str() );
 }
 
 void Game::ComposeFrame()
 {
-	// draw scene
-	//(*curScene)->Draw();
-
-	snake.Draw(brd);
-	fruit.Draw(brd);
-	if (gameOver)
+	if (gameBegin)
 	{
-		//TODO: make a title and game over screen, put game over screen here
+		snake.Draw(brd);
+		fruit.Draw(brd);
+		if (gameOver)
+		{
+			SpriteCodex::DrawGameOver(350, 265, gfx);	//TODO: make a title and game over screen, put game over screen here
+		}
+		brd.DrawBorder();
 	}
-	brd.DrawBorder();
+	else
+	{
+		SpriteCodex::DrawTitle(290, 225, gfx);
+	}
 
 	/*std::uniform_int_distribution<int> colorDist(0, 255); //OLD - Test code to draw the board and check it's working
 	for (int y = 0; y < brd.GetGridHeight(); y++)

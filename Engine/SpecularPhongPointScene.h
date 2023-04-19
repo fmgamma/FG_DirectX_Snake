@@ -220,7 +220,7 @@ private:
 	Vec3 cam_pos = { 0.0f,0.0f,0.0f };
 	Mat4 cam_rot_inv = Mat4::Identity();
 	// suzanne model stuff
-	IndexedTriangleList<Vertex> itlist = IndexedTriangleList<SpecularPhongPointScene::Vertex>::LoadNormals( "models\\suzanne.obj" );
+	IndexedTriangleList<Vertex> itlist = IndexedTriangleList<SpecularPhongPointScene::Vertex>::LoadNormals( "models\\BlendApple.obj" );
 	Vec3 mod_pos = { 1.2f,-0.4f,1.2f };
 	float theta_x = 0.0f;
 	float theta_y = 0.0f;
