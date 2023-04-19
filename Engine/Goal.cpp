@@ -5,6 +5,7 @@ Goal::Goal(std::mt19937& rng, const Board& brd, const Snake& snake)
 	Respawn(rng, brd, snake);
 }
 
+//when a fruit has been eaten, it needs to respawn at a valid board location.
 void Goal::Respawn(std::mt19937& rng, const Board& brd, const Snake& snake)
 {
 	std::uniform_int_distribution<int> xDist(0, brd.GetGridWidth() - 1);
@@ -22,11 +23,13 @@ void Goal::Respawn(std::mt19937& rng, const Board& brd, const Snake& snake)
 	loc = newLoc;
 }
 
+//draws a coloured cell where the fruit is currently located
 void Goal::Draw(Board& brd) const
 {
 	brd.DrawCell(loc, c);
 }
 
+//return the location of the current fruit
 const Location& Goal::GetLocation() const
 {
 	return loc;

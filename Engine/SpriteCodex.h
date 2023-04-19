@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 
+//functions for each sprite needed for the game states, save your PC 5 minutes of being froze up and don't open the .cpp file
 class SpriteCodex
 {
 public:

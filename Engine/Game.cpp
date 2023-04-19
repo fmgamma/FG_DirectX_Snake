@@ -44,6 +44,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	//Quit game input
 	if (wnd.kbd.KeyIsPressed(VK_ESCAPE))
 	{
 		exit(0);
@@ -53,7 +54,7 @@ void Game::UpdateModel()
 	{
 		if (!gameOver)
 		{
-
+			//movement controls
 			if (wnd.kbd.KeyIsPressed(VK_UP))
 			{
 				delta_loc = { 0,-1 };
@@ -98,6 +99,8 @@ void Game::UpdateModel()
 					}
 				}
 			}
+
+			//increases the speed the snake moves at every 24 seconds (assuming application is consistently running at 60 frames per second)
 			++snakeSpeedUpCounter;
 			if (snakeSpeedUpCounter >= snakeSpeedUpPerSec)
 			{
@@ -117,6 +120,7 @@ void Game::UpdateModel()
 	}
 }
 
+//main function
 void Game::ComposeFrame()
 {
 	if (gameBegin)

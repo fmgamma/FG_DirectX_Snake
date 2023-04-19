@@ -34,6 +34,7 @@ int Board::GetGridHeight() const
 	return height;
 }
 
+//checks the snake is still inside the board
 bool Board::IsInsideBoard(const Location& loc) const
 {
 	return loc.x >= 0 && loc.x < width &&
