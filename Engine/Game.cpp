@@ -112,7 +112,7 @@ void Game::UpdateModel()
 	}
 	else
 	{
-		howToPlay = wnd.kbd.KeyIsPressed(0x48);
+		//howToPlay = wnd.kbd.KeyIsPressed(0x48); DEPRECATED
 		gameBegin = wnd.kbd.KeyIsPressed(VK_RETURN);
 	}
 }
@@ -129,10 +129,10 @@ void Game::ComposeFrame()
 			SpriteCodex::DrawGameOver(1, 1, gfx);	//TODO: make a title and game over screen, put game over screen here
 		}
 	}
-	else if (howToPlay)
+	/*else if (howToPlay)
 	{
-		SpriteCodex::DrawHowToPlay(1, 1, gfx);
-	}
+		SpriteCodex::DrawHowToPlay(1, 1, gfx); DEPRECATED
+	}*/
 	else
 	{
 		SpriteCodex::DrawTitle(1, 1, gfx);
