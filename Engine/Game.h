@@ -59,11 +59,13 @@ private:
 	std::mt19937 rng;
 	Goal fruit;
 	Location delta_loc = {1,0};
+	int scoreCounter = 0;
 	int snakeMovePerSec = 20;
 	int snakeMoveCounter = 0;
 	int snakeSpeedUpPerSec = 1440; // every 24 seconds (60fps) the snake will increase its speed making it harder to reach the win condition
 	int snakeSpeedUpCounter = 0;
 	bool gameOver = false;
 	bool gameBegin = false;
+	bool howToPlay = false;
 	/********************************/
 };

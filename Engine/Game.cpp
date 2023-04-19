@@ -22,6 +22,7 @@
 #include "Game.h"
 #include "SpriteCodex.h"
 #include <sstream>
+#include <stdlib.h>
 
 Game::Game(MainWindow& wnd)
 	:
@@ -43,10 +44,16 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (wnd.kbd.KeyIsPressed(VK_ESCAPE))
+	{
+		exit(0);
+	}
+
 	if (gameBegin)
 	{
 		if (!gameOver)
 		{
+
 			if (wnd.kbd.KeyIsPressed(VK_UP))
 			{
 				delta_loc = { 0,-1 };
@@ -87,6 +94,7 @@ void Game::UpdateModel()
 					if (eating)
 					{
 						fruit.Respawn(rng, brd, snake);
+						scoreCounter++;
 					}
 				}
 			}
@@ -104,6 +112,7 @@ void Game::UpdateModel()
 	}
 	else
 	{
+		howToPlay = wnd.kbd.KeyIsPressed(0x48);
 		gameBegin = wnd.kbd.KeyIsPressed(VK_RETURN);
 	}
 }
@@ -114,15 +123,19 @@ void Game::ComposeFrame()
 	{
 		snake.Draw(brd);
 		fruit.Draw(brd);
+		brd.DrawBorder();
 		if (gameOver)
 		{
-			SpriteCodex::DrawGameOver(350, 265, gfx);	//TODO: make a title and game over screen, put game over screen here
+			SpriteCodex::DrawGameOver(1, 1, gfx);	//TODO: make a title and game over screen, put game over screen here
 		}
-		brd.DrawBorder();
+	}
+	else if (howToPlay)
+	{
+		SpriteCodex::DrawHowToPlay(1, 1, gfx);
 	}
 	else
 	{
-		SpriteCodex::DrawTitle(290, 225, gfx);
+		SpriteCodex::DrawTitle(1, 1, gfx);
 	}
 
 	/*std::uniform_int_distribution<int> colorDist(0, 255); //OLD - Test code to draw the board and check it's working
